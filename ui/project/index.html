@@ -2,16 +2,17 @@
 <html>
   <head>
     <title>ESP32-CAM Car Control</title>
-    <meta name="description" content="control page for your ESP32-CAM based car" />
+    <meta name="description" />
+    <meta content="control page for your ESP32-CAM based car" />
+    <meta name="viewport" content="user-scalable=0" />
+
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
     <div class="header">ESP32-CAM Car</div>
     <div class="content">
-      <div class="camera">
-        <div id="stream-container">
-          <img id="stream" src="" />
-        </div>
+      <div class="stream-container">
+        <img id="stream" src="" />
       </div>
       <div class="light-toggle"><button onclick="send('light')">Light</button></div>
       <div id="nav-buttons" class="nav-buttons">

@@ -57,13 +57,22 @@ button:active {
   font-size: 3.5rem;
 }
 
-.camera {
+.stream-container {
   /* background-color: lightpink; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
   min-height: 144px;
   height: 100%;
   width: 100%;
   margin-bottom: 16px;
   border: solid 1px darkgray;
+}
+
+.stream-container img {
+  width: 100%;
+  height: auto;
 }
 
 .nav-buttons {

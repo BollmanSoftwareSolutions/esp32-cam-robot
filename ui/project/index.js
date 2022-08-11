@@ -1,3 +1,5 @@
+var origin = document.location.origin;
+
 document.addEventListener('DOMContentLoaded', function () {
   send('direction', 'stop');
   send('pwm', 192);
@@ -18,10 +20,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     button.addEventListener('contextmenu', (e) => e.preventDefault());
   });
+
+  document.getElementById('stream').src = `${origin}:81/stream`;
 });
 
 function send(action, value) {
-  var url = `${document.location.origin}/control?action=${action}${value ? '?value=' + value : ''}`;
+  var url = `${origin}/control?action=${action}${value ? '?value=' + value : ''}`;
   console.log('action url', url);
   fetch(url);
 }
