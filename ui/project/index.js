@@ -22,6 +22,12 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   document.getElementById('stream').src = `${origin}:81/stream`;
+
+  fetch(`${origin}/info`)
+    .then((response) => {
+      document.getElementById('header').innerHTML = `${response}`;
+    })
+    .catch((e) => console.log('error getting header info', e));
 });
 
 function send(action, value) {
