@@ -33,7 +33,7 @@ button:active {
 
 .content {
   display: grid;
-  grid-template-rows: 40% 40% 20%;
+  grid-template-rows: 40% 5% 40% 15%;
   grid-template-columns: 100%;
   justify-content: space-around;
   align-items: center;
@@ -42,6 +42,19 @@ button:active {
   height: 100%;
   padding: 0 8px 0 8px;
 
+}
+
+.light-toggle {
+  display: flex;
+  justify-content: end;
+  height: 100%;
+  width: 100%;
+}
+
+.light-toggle button {
+  height: 100%;
+  width: 25%;
+  font-size: 3.5rem;
 }
 
 .camera {

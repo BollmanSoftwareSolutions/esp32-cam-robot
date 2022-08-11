@@ -8,22 +8,34 @@
   <body>
     <div class="header">ESP32-CAM Car</div>
     <div class="content">
-      <div class="camera"></div>
-      <div class="nav-buttons">
-        <button class="forward tall">Forward</button>
-        <button class="left wide">Left</button>
-        <button class="stop">Stop</button>
-        <button class="right wide">Right</button>
-        <button class="reverse tall">Reverse</button>
+      <div class="camera">
+        <div id="stream-container">
+          <img id="stream" src="" />
+        </div>
+      </div>
+      <div class="light-toggle"><button onclick="send('light')">Light</button></div>
+      <div id="nav-buttons" class="nav-buttons">
+        <button class="forward" data-action="direction" data-value="forward">Forward</button>
+        <button class="left" data-action="direction" data-value="left">Left</button>
+        <button class="stop" data-action="direction" data-value="stop">Stop</button>
+        <button class="right" data-action="direction" data-value="right">Right</button>
+        <button class="reverse" data-action="direction" data-value="reverse">Reverse</button>
       </div>
       <div class="settings">
         <div class="settings-input">
           <div>PWM:</div>
-          <input id="pwm" type="range" min="0" max="255"/>
+          <input
+            id="pwm"
+            type="range"
+            min="0"
+            max="255"
+            value="192"
+            onchange="send('pwm', this.value);"
+          />
         </div>
         <div class="settings-input">
           <div>Video Quality:</div>
-          <select id="quality">
+          <select id="quality" onchange="send('quality', this.value);">
             <option value="UXGA">UXGA (1600 x 1200)</option>
             <option value="SXGA">SXGA (1280 x 1024)</option>
             <option value="XGA">XGA (1024 x 768)</option>
@@ -35,5 +47,6 @@
         </div>
       </div>
     </div>
+    <script src="index.js"></script>
   </body>
 </html>
