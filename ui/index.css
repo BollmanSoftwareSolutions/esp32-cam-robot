@@ -1,0 +1,121 @@
+body {
+  --directional-radius: 40%;
+  --circle-radius: 50%;
+  --button-short: 30%;
+  --button-tall: 80px;
+
+  --forward-reverse-width: 50%;
+
+  --button-active: red;
+
+  height: calc(100vh - 16px);
+  display: grid;
+  grid-template-rows: auto 90%;
+
+  /* background-color: darkred; */
+  margin: 0;
+  padding: 8px;
+}
+
+button {
+  border-style: solid;
+  border-color: gray;
+  font-size: 1.25rem;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  /* background: aquamarine; */
+  height: 100%;
+  padding: 0 8px 0 8px;
+}
+
+.camera {
+  /* background-color: lightpink; */
+  min-height: 144px;
+  height: 40%;
+  width: 100%;
+  margin-bottom: 16px;
+  border: solid 1px darkgray;
+}
+
+.nav-buttons {
+  /* background-color: blanchedalmond; */
+
+  display: grid;
+  grid-template:
+    "left forward right" 100px
+    "left stop right" 60px
+    "left reverse right" 100px
+    / 25% auto 25%;
+}
+
+.nav-buttons .forward {
+  grid-area: forward;
+
+  height: 95%;
+  align-self: start;
+  border-radius: 50% 50% 10px 10px;
+}
+
+.nav-buttons .left {
+  grid-area: left;
+
+  margin-right: 5px;
+  height: 70%;
+  align-self: center;
+  border-radius: 50% 10px 10px 50%;
+}
+
+.nav-buttons .stop {
+  grid-area: stop;
+  border-radius: 16px;
+  align-self: center;
+  justify-self: center;
+  height: 90%;
+  width: 80%;
+}
+
+.nav-buttons .right {
+  grid-area: right;
+
+  margin-left: 5px;
+  height: 70%;
+  align-self: center;
+  border-radius: 10px 50% 50% 10px;
+}
+
+.nav-buttons .reverse {
+  grid-area: reverse;
+
+  height: 95%;
+  align-self: end;
+  border-radius: 10px 10px 50% 50%;
+}
+
+.settings {
+  /* background-color: lightskyblue; */
+  margin-top: 16px;
+  width: 100%;
+}
+
+.settings-input {
+  /* background-color: beige; */
+
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  padding: 8px 0 8px 0;
+}
+
+.settings-input input,
+.settings-input select {
+  width: 65%;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ESP32-CAM Car Control</title>
+    <meta name="description" content="control page for your ESP32-CAM based car" />
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="header">
+      <h2>ESP32-CAM Car</h2>
+    </div>
+    <div class="content">
+      <div class="camera"></div>
+      <div class="nav-buttons">
+        <button class="forward tall">Forward</button>
+        <button class="left wide">Left</button>
+        <button class="stop">Stop</button>
+        <button class="right wide">Right</button>
+        <button class="reverse tall">Reverse</button>
+      </div>
+      <div class="settings">
+        <div class="settings-input">
+          <div>PWM:</div>
+          <input id="pwm" type="range" min="0" max="255"/>
+        </div>
+        <div class="settings-input">
+          <div>Video Quality:</div>
+          <select id="quality">
+            <option value="UXGA">UXGA (1600 x 1200)</option>
+            <option value="SXGA">SXGA (1280 x 1024)</option>
+            <option value="XGA">XGA (1024 x 768)</option>
+            <option value="SVGA">SVGA (800 x 600)</option>
+            <option value="VGA">VGA (640 x 480)</option>
+            <option value="CIF">CIF (352 x 288)</option>
+            <option value="QVGA">QVGA (320 x 240)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
