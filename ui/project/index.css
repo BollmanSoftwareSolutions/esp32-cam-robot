@@ -10,33 +10,39 @@ body {
 
   height: calc(100vh - 16px);
   display: grid;
-  grid-template-rows: auto 90%;
+  grid-template-rows: auto 95%;
 
   /* background-color: darkred; */
   margin: 0;
   padding: 8px;
+
+  font-size: 3.5rem;
+
+  text-align: center;
 }
 
 button {
   border-style: solid;
   border-color: gray;
-  font-size: 1.25rem;
 }
 
 .content {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: 40% 40% 20%;
+  grid-template-columns: 100%;
   justify-content: space-around;
+  align-items: center;
 
   /* background: aquamarine; */
   height: 100%;
   padding: 0 8px 0 8px;
+
 }
 
 .camera {
   /* background-color: lightpink; */
   min-height: 144px;
-  height: 40%;
+  height: 100%;
   width: 100%;
   margin-bottom: 16px;
   border: solid 1px darkgray;
@@ -47,10 +53,13 @@ button {
 
   display: grid;
   grid-template:
-    "left forward right" 100px
-    "left stop right" 60px
-    "left reverse right" 100px
-    / 25% auto 25%;
+      "left forward right" 240px
+      "left stop right" 180px
+      "left reverse right" 240px / 25% auto 25%;
+}
+
+.nav-buttons button {
+  font-size: 3.5rem;
 }
 
 .nav-buttons .forward {
@@ -64,7 +73,7 @@ button {
 .nav-buttons .left {
   grid-area: left;
 
-  margin-right: 5px;
+  margin-right: 16px;
   height: 70%;
   align-self: center;
   border-radius: 50% 10px 10px 50%;
@@ -76,13 +85,13 @@ button {
   align-self: center;
   justify-self: center;
   height: 90%;
-  width: 80%;
+  width: 90%;
 }
 
 .nav-buttons .right {
   grid-area: right;
 
-  margin-left: 5px;
+  margin-left: 16px;
   height: 70%;
   align-self: center;
   border-radius: 10px 50% 50% 10px;
@@ -117,5 +126,18 @@ button {
 
 .settings-input input,
 .settings-input select {
+  height: 100%;
   width: 65%;
+  font-size: 3rem;
+}
+
+option {
+  font-size: 0.75rem;
+}
+
+.settings-input input[type=range] {
+  /* -webkit-appearance: none;
+  height: 100%;
+  
+  background: #4885ff; */
 }
