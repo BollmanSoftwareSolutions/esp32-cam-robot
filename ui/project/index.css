@@ -28,7 +28,7 @@ button {
 
 button:active {
   background-color: rgb(112, 112, 112);
-  color:rgb(212, 212, 212);
+  color: rgb(212, 212, 212);
 }
 
 .content {
@@ -41,7 +41,6 @@ button:active {
   /* background: aquamarine; */
   height: 100%;
   padding: 0 8px 0 8px;
-
 }
 
 .light-toggle {
@@ -62,7 +61,7 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   min-height: 144px;
   height: 100%;
   width: 100%;
@@ -80,9 +79,9 @@ button:active {
 
   display: grid;
   grid-template:
-      "left forward right" 240px
-      "left stop right" 180px
-      "left reverse right" 240px / 25% auto 25%;
+    "left forward right" 240px
+    "left stop right" 180px
+    "left reverse right" 240px / 25% auto 25%;
 }
 
 .nav-buttons button {
@@ -163,22 +162,22 @@ option {
   font-size: 0.75rem;
 }
 
-.settings-input input[type=range] {
-  -webkit-appearance:none;
+.settings-input input[type="range"] {
+  -webkit-appearance: none;
 
-  height:35px;
-  background-color:#2ea932af;
-  cursor:pointer;
-  margin:0
+  height: 35px;
+  background-color: #2ea932af;
+  cursor: pointer;
+  margin: 0;
 }
 
-.settings-input input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance:none;
+.settings-input input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
 
-  border:1px solid rgba(0,0,30,0);
-  height:48px;
-  width:22px;
-  border-radius:5px;
-  background:#016f05;
-  cursor:pointer;
+  border: 1px solid rgba(0, 0, 30, 0);
+  height: 48px;
+  width: 22px;
+  border-radius: 5px;
+  background: #016f05;
+  cursor: pointer;
 }

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function send(action, value) {
-  var url = `${origin}/control?action=${action}${value ? '?value=' + value : ''}`;
+  var url = `${origin}/${action}${value ? '?value=' + value : ''}`;
   console.log('action url', url);
   fetch(url);
 }
