@@ -1,7 +1,7 @@
 #include <WiFi.h>
 #include <ESPAsyncWebServer.h>
-#include "SD.h"
 #include "html.h"
+#include "SD_MMC.h"
 
 class WebServerWrapper
 {
@@ -34,15 +34,17 @@ public:
 
   void initInterfaceEndpoints()
   {
-    if (SD.exists("/index.html"))
+    if (SD_MMC.exists("/ui/index.html"))
     {
       server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-                { request->send(SD, "/index.html", "text/html"); });
+                { request->send(SD_MMC, "/ui/index.html", "text/html"); });
+
+      server.serveStatic("/ui/", SD_MMC, "/ui/");
     }
     else
     {
       server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-                { request->send(200, "text/html", getIndexHTML()); });
+                { request->send(200, "text/html", "hello"); }); // getIndexHTML()); });
     }
   }
 

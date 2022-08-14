@@ -3,41 +3,40 @@
 #include <ArduinoJson.h>
 #include "SD.h"
 #include "web_server.h"
+#include "SD_MMC.h"
 
 // Replace with your network credentials
-const char *ssid = "WIN_400433";
-const char *password = "4nbw4pmb8x";
-bool validSD;
-bool light;
-int pwm;
-char *quality;
+const char *ssid; //= "WIN_400433";
+const char *password; // = "4nbw4pmb8x";
+bool validSD = false;
+bool light = false;
+int pwm = 192;
+const char *quality = "VGA";
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
 WebServerWrapper wrapper(80);
 
 void initWiFi(const char *ssid, const char *password);
-const char *readFile(fs::FS &fs, const char *path);
-bool initSDCard();
-
+char *readFile(const char *path);
 void initInterfaceEndpoints(AsyncWebServer server);
+bool initSDCard();
 
 void setup()
 {
   Serial.begin(115200);
   validSD = initSDCard();
-  if (validSD)
-  {
-    initSettings();
-  }
+  Serial.printf("valid SD card: %s\n", validSD ? "true" : "false");
+
+  initSettings();
 
   initWiFi(ssid, password);
-  wrapper.initInterfaceEndpoints();
   wrapper.initGet("/info", infoHandler);
   wrapper.initGet("/direction", directionHandler);
   wrapper.initGet("/pwm", pwmHandler);
   wrapper.initGet("/quality", qualityHandler);
   wrapper.initGet("/light", lightHandler);
+  wrapper.initInterfaceEndpoints();
 
   wrapper.begin();
 }
@@ -46,16 +45,55 @@ void loop()
 {
 }
 
+// bool initMicroSDCard()
+// {
+//   // Start the MicroSD card
+
+//   Serial.println("Mounting MicroSD Card");
+//   if (!SD_MMC.begin())
+//   {
+//     Serial.println("MicroSD Card Mount Failed");
+//     return false;
+//   }
+//   else {
+//     Serial.println("MicroSD Card Mount did not fail");
+//   }
+
+//   uint8_t cardType = SD_MMC.cardType();
+//   if (cardType == CARD_NONE)
+//   {
+//     Serial.println("No MicroSD Card found");
+//     return false;
+//   }
+
+//   return true;
+// }
+
 void initSettings()
 {
-  const char *settings = readFile(SD, "/settings.json");
+  if (validSD)
+  {
+    Serial.println("getting settings from SD card");
 
-  const size_t capacity = JSON_ARRAY_SIZE(2) + JSON_OBJECT_SIZE(3) + 60;
-  DynamicJsonDocument jsonDocument(capacity);
-  deserializeJson(jsonDocument, settings);
+    char *settings = readFile("/settings.json");
 
-  ssid = jsonDocument["sensor"];
-  password = jsonDocument["sensor"];
+    StaticJsonDocument<32> doc;
+
+    DeserializationError error = deserializeJson(doc, settings);
+
+    if (error)
+    {
+      Serial.print("deserializeJson() failed: ");
+      Serial.println(error.c_str());
+      return;
+    }
+
+    ssid = doc["ssid"];         // "WIN_400433"
+    password = doc["password"]; // "4nbw4pmb8x"
+  }
+
+  Serial.printf("ssid: %s\n", ssid);
+  Serial.printf("password: %s\n", password);
 }
 
 void directionHandler(AsyncWebServerRequest *request)

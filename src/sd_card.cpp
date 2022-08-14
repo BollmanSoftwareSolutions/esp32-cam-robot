@@ -14,34 +14,44 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include "FS.h"
-#include "SD.h"
 #include "SPI.h"
+#include "SD_MMC.h"
 
 bool initSDCard()
 {
-  if (!SD.begin())
+  // Start the MicroSD card
+
+  Serial.println("Mounting MicroSD Card");
+  if (!SD_MMC.begin())
   {
-    Serial.println("Card Mount Failed");
+    Serial.println("MicroSD Card Mount Failed");
     return false;
   }
-  uint8_t cardType = SD.cardType();
+  else
+  {
+    Serial.println("MicroSD Card Mount did not fail");
+  }
 
+  uint8_t cardType = SD_MMC.cardType();
   if (cardType == CARD_NONE)
   {
-    Serial.println("No SD card attached");
+    Serial.println("No MicroSD Card found");
     return false;
   }
 
-  Serial.printf("SD Card Type [MMC=1|SDSC=2|SDHC=3|UNK=???]: %i\n", cardType);
-
-  uint64_t cardSize = SD.cardSize() / (1024 * 1024);
-  Serial.printf("SD Card Size: %lluMB\n", cardSize);
   return true;
 }
 
-const char *readFile(fs::FS &fs, const char *path)
+bool exists(char *path)
 {
-  File file = fs.open(path);
+  return SD_MMC.exists(path);
+}
+
+char *readFile(const char *path)
+{
+  Serial.printf("reading file: %s\n", path);
+
+  File file = SD_MMC.open(path);
   if (!file)
   {
     Serial.println("no file");
@@ -57,9 +67,12 @@ const char *readFile(fs::FS &fs, const char *path)
   {
     buffer[i] = (unsigned char)file.read();
   }
-  buffer[count] = 0; //< Added
-  const char *convert = (const char *)buffer;
 
+  Serial.println("Buffer filled\n");
+  buffer[count] = 0; //< Added
+  char *convert = (char *)buffer;
+
+  Serial.println("Closing file\n");
   file.close();
   return convert;
 }
