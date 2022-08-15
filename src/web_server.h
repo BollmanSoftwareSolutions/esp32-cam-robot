@@ -44,7 +44,12 @@ public:
     else
     {
       server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-                { request->send(200, "text/html", "hello"); }); // getIndexHTML()); });
+                { request->send(200, "text/html", getIndexHTML()); });
+    }
+
+    if (SD_MMC.exists("/"))
+    {
+      Serial.println("SD Card is mounted");
     }
   }
 

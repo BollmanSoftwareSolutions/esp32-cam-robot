@@ -6,8 +6,8 @@
 #include "SD_MMC.h"
 
 // Replace with your network credentials
-const char *ssid; //= "WIN_400433";
-const char *password; // = "4nbw4pmb8x";
+const char *ssid = "";     //= "WIN_400433";
+const char *password = ""; // = "4nbw4pmb8x";
 bool validSD = false;
 bool light = false;
 int pwm = 192;
@@ -45,33 +45,9 @@ void loop()
 {
 }
 
-// bool initMicroSDCard()
-// {
-//   // Start the MicroSD card
-
-//   Serial.println("Mounting MicroSD Card");
-//   if (!SD_MMC.begin())
-//   {
-//     Serial.println("MicroSD Card Mount Failed");
-//     return false;
-//   }
-//   else {
-//     Serial.println("MicroSD Card Mount did not fail");
-//   }
-
-//   uint8_t cardType = SD_MMC.cardType();
-//   if (cardType == CARD_NONE)
-//   {
-//     Serial.println("No MicroSD Card found");
-//     return false;
-//   }
-
-//   return true;
-// }
-
 void initSettings()
 {
-  if (validSD)
+  if (validSD && SD_MMC.exists("/settings.json"))
   {
     Serial.println("getting settings from SD card");
 
@@ -91,7 +67,11 @@ void initSettings()
     ssid = doc["ssid"];         // "WIN_400433"
     password = doc["password"]; // "4nbw4pmb8x"
   }
-
+  else
+  {
+    ssid = "WIN_400433";
+    password = "4nbw4pmb8x";
+  }
   Serial.printf("ssid: %s\n", ssid);
   Serial.printf("password: %s\n", password);
 }
