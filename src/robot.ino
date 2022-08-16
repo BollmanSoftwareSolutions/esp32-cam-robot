@@ -17,7 +17,6 @@ const char *quality = "VGA";
 AsyncWebServer server(80);
 WebServerWrapper wrapper(80);
 
-void initWiFi(const char *ssid, const char *password);
 char *readFile(const char *path);
 void initInterfaceEndpoints(AsyncWebServer server);
 bool initSDCard();
@@ -74,6 +73,19 @@ void initSettings()
   }
   Serial.printf("ssid: %s\n", ssid);
   Serial.printf("password: %s\n", password);
+}
+
+void initWiFi(const char *ssid, const char *password)
+{
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting to WiFi ..");
+  while (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print('.');
+    delay(1000);
+  }
+  Serial.println(WiFi.localIP());
 }
 
 void directionHandler(AsyncWebServerRequest *request)
