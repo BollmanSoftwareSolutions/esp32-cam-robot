@@ -2,6 +2,7 @@
 #include <ESPAsyncWebServer.h>
 #include "html.h"
 #include "SD_MMC.h"
+#include <AsyncElegantOTA.h>
 
 #define FIRMWARE_VERSION "v0.0.1"
 
@@ -21,6 +22,7 @@ public:
 
   void begin()
   {
+    AsyncElegantOTA.begin(&server); // Start ElegantOTA
     server.begin();
   }
 
@@ -180,7 +182,7 @@ private:
 
   static String listDirectoryFiles(File directory)
   {
-    String returnText = "<tr align='left'><td>" + String(directory.name()) + "</td><td>--</td><td>--</td></tr>";
+    String returnText = "<tr align='left'><td>" + String(directory.name()) + "</td><td>-----</td><td>--------</td></tr>";
     File file = directory.openNextFile();
     while (file)
     {
