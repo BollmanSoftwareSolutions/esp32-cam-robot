@@ -61,15 +61,23 @@ public:
 
     if (SD_MMC.exists("/"))
     {
-      server.onFileUpload(handleUpload);
-
       server.on("/file-upload", HTTP_GET, [](AsyncWebServerRequest *request)
-                { request->send_P(200, "text/html", getUploadIndexHTML(), processor); });
+                { request->send(SD_MMC, "/ui/file-upload.html", "text/html", false, processor); });
 
       server.on("/listfiles", HTTP_GET, [](AsyncWebServerRequest *request)
                 { request->send(200, "text/plain", listFiles(true)); });
 
       server.on("/file", HTTP_GET, handleFile);
+
+      server.on(
+          "/upload", HTTP_POST, [](AsyncWebServerRequest *request)
+          { request->send(200); },
+          handleUpload);
+
+      server.on(
+          "/create-dir", HTTP_POST, [](AsyncWebServerRequest *request)
+          { request->send(200); },
+          handleUploadEmpty, handleCreateDirectory);
     }
     else
     {
@@ -90,6 +98,8 @@ private:
     Serial.println(logmessage);
     request->send(404, "text/plain", "Not found");
   }
+
+  static void handleUploadEmpty(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final) {}
 
   // handles uploads to the filserver
   static void handleUpload(AsyncWebServerRequest *request, String filename, size_t index, uint8_t *data, size_t len, bool final)
@@ -119,8 +129,47 @@ private:
       // close the file handle as the upload is now done
       request->_tempFile.close();
       Serial.println(logmessage);
-      request->redirect("/");
+      request->redirect("/file-upload");
     }
+  }
+
+  // handles create directory on the filserver
+  static void handleCreateDirectory(AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
+  {
+    String logmessage = "Client:" + request->client()->remoteIP().toString() + " " + request->url();
+    Serial.println(logmessage);
+
+    Serial.println("checking for args");
+    int args = request->args();
+    for (int i = 0; i < args; i++)
+    {
+      Serial.printf("ARG[%s]: %s\n", request->argName(i).c_str(), request->arg(i).c_str());
+    }
+
+    if (request->hasParam("dir-name"))
+    {
+      Serial.println("dir-name exists");
+      SD_MMC.exists(request->getParam("dir-name")->value().c_str());
+    }
+    else
+    {
+      Serial.println("dir-name does not exist");
+    }
+
+    if (!index)
+    {
+      Serial.printf("BodyStart: %u B\n", total);
+    }
+    for (size_t i = 0; i < len; i++)
+    {
+      Serial.write(data[i]);
+    }
+    if (index + len == total)
+    {
+      Serial.printf("BodyEnd: %u B\n", total);
+    }
+
+    request->redirect("/file-upload");
   }
 
   static void handleFile(AsyncWebServerRequest *request)
@@ -182,7 +231,7 @@ private:
 
   static String listDirectoryFiles(File directory)
   {
-    String returnText = "<tr align='left'><td>" + String(directory.name()) + "</td><td>-----</td><td>--------</td></tr>";
+    String returnText = "<tr align='left'><td>" + String(directory.name()) + "</td><td>-----</td><td>" + "<button onclick=\"showUploadButton('" + String(directory.name()) + "')\">Upload</button>" + "</td></tr>";
     File file = directory.openNextFile();
     while (file)
     {
@@ -190,10 +239,12 @@ private:
       {
         returnText += listDirectoryFiles(file);
       }
-
-      returnText += "<tr align='left'><td>" + String(file.name()) + "</td><td>" + humanReadableSize(file.size()) + "</td>";
-      returnText += "<td><button onclick=\"downloadDeleteButton(\'" + String(file.name()) + "\', \'download\')\">Download</button>";
-      returnText += "<td><button onclick=\"downloadDeleteButton(\'" + String(file.name()) + "\', \'delete\')\">Delete</button></tr>";
+      else
+      {
+        returnText += "<tr align='left'><td>" + String(file.name()) + "</td><td>" + humanReadableSize(file.size()) + "</td>";
+        returnText += "<td><button onclick=\"downloadDeleteButton(\'" + String(file.name()) + "\', \'download\')\">Download</button>";
+        returnText += "<td><button onclick=\"downloadDeleteButton(\'" + String(file.name()) + "\', \'delete\')\">Delete</button></tr>";
+      }
 
       file = directory.openNextFile();
     }

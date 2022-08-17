@@ -7,13 +7,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.querySelectorAll('#nav-buttons > button').forEach((button) => {
     ['mousedown', 'touchstart'].forEach((eventName) => {
-      button.addEventListener(eventName, function () {
+      button.addEventListener(eventName, function (event) {
+        event.preventDefault();
         send(button.dataset['action'], button.dataset['value']);
       });
     });
 
     ['mouseup', 'touchend'].forEach((eventName) => {
-      button.addEventListener(eventName, function () {
+      button.addEventListener(eventName, function (event) {
+        event.preventDefault();
         send('direction', 'stop');
       });
     });

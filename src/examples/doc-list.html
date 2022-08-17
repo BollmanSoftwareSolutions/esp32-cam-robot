@@ -33,7 +33,6 @@
         xmlhttp.send();
         document.getElementById("detailsheader").innerHTML = "<h3>Files<h3>";
         document.getElementById("details").innerHTML = xmlhttp.responseText;
-        console.log(xmlhttp.responseText)
       }
       function downloadDeleteButton(filename, action) {
         var urltocall = "/file?name=" + filename + "&action=" + action;

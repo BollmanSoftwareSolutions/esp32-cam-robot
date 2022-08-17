@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <div>Main page</div>
+    <div>Firmware: %FIRMWARE%</div>
+    <div>
+      Free Storage: <span id="freespiffs">%FREESPIFFS%</span> | Used Storage:
+      <span id="usedspiffs">%USEDSPIFFS%</span> | Total Storage: <span id="totalspiffs">%TOTALSPIFFS%</span>
+    </div>
+    <div>
+      <button onclick="rebootButton()">Reboot</button>
+      <button onclick="listFilesButton()">List Files</button>
+      <button onclick="showUploadButton('/')">Upload File</button>
+      <button onclick="createDirectory()">Create Directory</button>
+    </div>
+    <div>
+      <div id="status-header"></div>
+      <div id="create-directory-container" hidden="">
+        <form id="directory-form" enctype="multipart/form-data" method="POST" action="/create-dir">
+          <input type="text" name="dir-name" id="dir-name" /><button id="submit-directory">Submit</button><br />
+        </form>
+      </div>
+      <div id="file-list-container" hidden="">
+        <div id="list-header"></div>
+        <div id="list-details"></div>
+      </div>
+      <div id="upload-form-container" hidden="">
+        <div id="form-header"></div>
+        <form id="upload-form" enctype="multipart/form-data" method="POST" action="/upload">
+          <input type="file" name="file1" id="file1" /><button id="submit-upload">Submit</button><br />
+          <input type="hidden" name="test-field" id="dir-field" value=""/>
+          <progress id="progressBar" value="0" max="100" style="width: 300px"></progress>
+          <h3 id="status"></h3>
+          <p id="loaded_n_total"></p>
+        </form>
+      </div>
+    </div>
+    <script src="/ui/file-upload.js"></script>
+  </body>
+</html>
